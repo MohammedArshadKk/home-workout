@@ -208,8 +208,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               child: TextFormField(
                 controller: _idController,
                 decoration: const InputDecoration(
-                  hintText: 'Enter ID',
-                  labelText: 'ID',
+                  hintText: 'Enter Itom cound',
+                  labelText: 'Itom cound',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -222,7 +222,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 child: ElevatedButton(
                   onPressed: () => _editWorkout(widget.documentId),
                   child: _saving
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : const Text(
                           'Save',
                           style: TextStyle(

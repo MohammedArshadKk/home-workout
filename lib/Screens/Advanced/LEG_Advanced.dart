@@ -1,5 +1,6 @@
-// ignore_for_file: file_names, use_key_in_widget_constructors, sized_box_for_whitespace
 
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
@@ -47,7 +48,7 @@ class LegAdvancedScreen extends StatelessWidget {
                     ),
                     child: const Center(
                         child: Text(
-                      '20 mins 16 workouts',
+                      '26 mins 23 workouts',
                       style: TextStyle(fontWeight: FontWeight.w500),
                     )),
                   ),
@@ -79,7 +80,7 @@ class LegAdvancedScreen extends StatelessWidget {
                         dataList.where((doc) {
                       final Map<String, dynamic> data =
                           doc.data() as Map<String, dynamic>;
-                      return data['option'] == 'LEG ADVANCED';
+                      return data['option'] == 'LEG BEGINNER';
                     }).toList();
 
                     if (filteredDataList.isEmpty) {
@@ -90,33 +91,59 @@ class LegAdvancedScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: filteredDataList.length,
                       itemBuilder: (context, index) {
-                        final Map<String, dynamic> map = filteredDataList[index]
-                            .data() as Map<String, dynamic>;
+                        final Map<String, dynamic> map =
+                            filteredDataList[index].data()
+                                as Map<String, dynamic>;
                         final id = map['duration'];
                         final imgeUrl = map['imageUrl'];
                         final workoutName = map['workoutName'];
                         final descriptionWorkout = map['description'];
 
-                        return SizedBox(
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WorkoutDiscrption(
-                                    imgeUrl: imgeUrl,
-                                    workoutName: workoutName,
-                                    descriptionWorkout: descriptionWorkout,
+                        return Column(
+                          children: [
+                            SizedBox(
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          WorkoutDiscrption(
+                                        imgeUrl: imgeUrl,
+                                        workoutName: workoutName,
+                                        descriptionWorkout: descriptionWorkout,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                leading: Container(
+                                  height: 60,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: Colors.blueGrey),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: imgeUrl,      
+                                    errorWidget: (context, url, error) =>
+                                     const  Icon(Icons.error),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              );
-                            },
-                            leading: Image.network(imgeUrl),
-                            title: Text(workoutName.toString(),
-                                style: const TextStyle(fontWeight: FontWeight.bold)),
-                            subtitle: Text(id.toString(),
-                                style: const TextStyle(fontWeight: FontWeight.w300)),
-                          ),
+                                title: Text(
+                                  workoutName.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(
+                                  id.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ),
+                            ),
+                            const Divider()
+                          ],
                         );
                       },
                     );

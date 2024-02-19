@@ -204,8 +204,8 @@ class _AddContentState extends State<AddContent> {
               child: TextFormField(
                 controller: _idController,
                 decoration: const InputDecoration(
-                  hintText: 'Enter ID',
-                  labelText: 'ID',
+                  hintText: 'Enter Itom cound',
+                  labelText: 'Itom cound', 
                   border: OutlineInputBorder(),
                 ),
               ),

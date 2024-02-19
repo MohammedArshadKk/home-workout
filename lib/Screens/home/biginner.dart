@@ -54,7 +54,7 @@ class BiginnerWorkOut extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>ChestBiginnerScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>ChestBeginnerScreen()));
                 },
                 child: Container(
                   height: 170,

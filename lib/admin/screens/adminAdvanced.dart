@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:home_workout/admin/edit_content.dart';
@@ -70,7 +71,12 @@ class AdminAvancedScreen extends StatelessWidget {
                                   height:60,
                                   width: 60,     
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Colors.blueGrey)),
-                                  child: Image.network(imageUrl)
+                                  child: CachedNetworkImage(
+                                    imageUrl: imageUrl,
+                                    errorWidget: (context, url, error) =>
+                                     const  Icon(Icons.error),
+                                    fit: BoxFit.cover,
+                                  ),
                                   ),
                                 title: Text(workoutName.toString(),
                                     style: const TextStyle(
