@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             // ignore: prefer_const_constructors
             child: Column(
               children: const [
-                fullBody7X4(),
+                FullBody7x4(),
                 BiginnerWorkOut(),
                 intermediateWorkOut(),
                 AdvancedlevelWorkOut()

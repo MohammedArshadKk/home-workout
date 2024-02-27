@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutstart.dart';
+import 'package:home_workout/Screens/7x4challenge/workoutStartFullbody/workout_rest_fullbody.dart';
+import 'package:home_workout/Screens/workout/workoutInformation.dart';
 import 'package:home_workout/admin/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,8 +15,7 @@ class Day2Screen extends StatefulWidget {
 
 class _Day2ScreenState extends State<Day2Screen> {
   late SharedPreferences _prefs;
-  bool _gifLoaded = false;
-
+  List<QueryDocumentSnapshot<Object?>>? filteredDataListNew;
   @override
   void initState() {
     super.initState();
@@ -26,7 +25,6 @@ class _Day2ScreenState extends State<Day2Screen> {
   _loadPrefs() async {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
-      _gifLoaded = _prefs.getBool('gifLoaded') ?? false;
     });
   }
 
@@ -89,7 +87,7 @@ class _Day2ScreenState extends State<Day2Screen> {
                   stream: showDaysListAsStream(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
@@ -105,7 +103,7 @@ class _Day2ScreenState extends State<Day2Screen> {
                     }).toList();
 
                     if (filteredDataList.isEmpty) {
-                      return Text('No data available');
+                      return const Text('No data available');
                     }
                     return ListView.builder(
                       shrinkWrap: true,
@@ -117,7 +115,8 @@ class _Day2ScreenState extends State<Day2Screen> {
                         final id = map['duration'];
                         final imgeUrl = map['imageUrl'];
                         final workoutName = map['workoutName'];
-                        final descriptionWorkout = map['description'];
+                        filteredDataListNew=filteredDataList;
+                       
 
                         return Column(
                           children: [
@@ -129,9 +128,8 @@ class _Day2ScreenState extends State<Day2Screen> {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           WorkoutDiscrption(
-                                        imgeUrl: imgeUrl,
-                                        workoutName: workoutName,
-                                        descriptionWorkout: descriptionWorkout,
+                                         filteredDataList: filteredDataList,
+                                        
                                       ),
                                     ),
                                   );
@@ -145,8 +143,9 @@ class _Day2ScreenState extends State<Day2Screen> {
                                   ),
                                   child: CachedNetworkImage(
                                     imageUrl: imgeUrl,
+                                    placeholder: (context, url) => Image.asset('assets/praceholder.jpg'),
                                     errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                        const Icon(Icons.error),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -179,7 +178,9 @@ class _Day2ScreenState extends State<Day2Screen> {
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => WorkoutStartScreen()));
+                  MaterialPageRoute(builder: (ctx) =>  WorkoutRestScreenFullbody(
+                    filteredDataList:filteredDataListNew ,
+                  )));
             },
             style: ButtonStyle(
                 backgroundColor:

@@ -25,7 +25,7 @@ class AdvancedlevelWorkOut extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) => const AbsAdvancedScreen())); 
+                      builder: (ctx) =>  AbsAdvancedScreen())); 
                 },
                 child: Container(
                   height: 170,
@@ -56,7 +56,7 @@ class AdvancedlevelWorkOut extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) => const ChestAdvancedScreen()));
+                      builder: (ctx) =>  ChestAdvancedScreen()));
                 },
                 child: Container(
                   height: 170,
@@ -91,7 +91,7 @@ class AdvancedlevelWorkOut extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) => const ArmAdvancedScreen()));
+                      builder: (ctx) =>  ArmAdvancedScreen()));
                 },
                 child: Container(
                   height: 170,
@@ -122,7 +122,7 @@ class AdvancedlevelWorkOut extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) => const LegAdvancedScreen()));
+                      builder: (ctx) =>  LegAdvancedScreen()));
                 },
                 child: Container(
                   height: 170,

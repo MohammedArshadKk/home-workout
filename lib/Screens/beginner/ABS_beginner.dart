@@ -1,15 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutstart.dart';
+import 'package:home_workout/Screens/workout/workoutInformation.dart';
+import 'package:home_workout/Screens/workout/workoutRest.dart';
 import 'package:home_workout/admin/functions.dart';
 
 class AbsBeginnerScreen extends StatelessWidget {
-  const AbsBeginnerScreen({Key? key});
+   AbsBeginnerScreen({
+    Key? key,
+  }) : super(key: key);
 
+
+  List<QueryDocumentSnapshot<Object?>>? filteredDataListNew;
+  dynamic imageUrlNew;
+  String?  workoutname;
   @override
   Widget build(BuildContext context) {
+
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -44,7 +52,7 @@ class AbsBeginnerScreen extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       '20 mins 16 workouts',
                       style: TextStyle(fontWeight: FontWeight.w500),
@@ -63,15 +71,10 @@ class AbsBeginnerScreen extends StatelessWidget {
                   stream: showDaysListAsStream(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
-                    }
-
-                    if (snapshot.data == null) {
-                      return const Text('No data available');
                     }
 
                     final List<QueryDocumentSnapshot> dataList =
@@ -91,13 +94,14 @@ class AbsBeginnerScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: filteredDataList.length,
                       itemBuilder: (context, index) {
-                        final Map<String, dynamic> map =
-                            filteredDataList[index].data()
-                                as Map<String, dynamic>;
+                        final Map<String, dynamic> map = filteredDataList[index]
+                            .data() as Map<String, dynamic>;
                         final id = map['duration'];
-                        final imgeUrl = map['imageUrl'];
-                        final workoutName = map['workoutName'];
+                        final imageUrlNew = map['imageUrl'];
+                        final workoutname = map['workoutName'];
                         final descriptionWorkout = map['description'];
+                         filteredDataListNew=filteredDataList;
+
 
                         return Column(
                           children: [
@@ -108,9 +112,7 @@ class AbsBeginnerScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => WorkoutDiscrption(
-                                        imgeUrl: imgeUrl,
-                                        workoutName: workoutName,
-                                        descriptionWorkout: descriptionWorkout,
+                                        filteredDataList: filteredDataList,
                                       ),
                                     ),
                                   );
@@ -123,14 +125,16 @@ class AbsBeginnerScreen extends StatelessWidget {
                                     border: Border.all(color: Colors.blueGrey),
                                   ),
                                   child: CachedNetworkImage(
-                                    imageUrl: imgeUrl,
+                                    imageUrl: imageUrlNew,
+                                    placeholder: (context, url) =>
+                                        Image.asset('assets/praceholder.jpg'),
                                     errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                        const Icon(Icons.error),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                                 title: Text(
-                                  workoutName.toString(),
+                                  workoutname.toString(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -141,7 +145,7 @@ class AbsBeginnerScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Divider()
+                            const Divider(),
                           ],
                         );
                       },
@@ -150,7 +154,7 @@ class AbsBeginnerScreen extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -158,12 +162,19 @@ class AbsBeginnerScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (ctx) => const WorkoutStartScreen()),
+              MaterialPageRoute(
+                builder: (ctx) => WorkoutRestScreen(
+               filteredDataList: filteredDataListNew,
+                          
+
+                ),
+              ),
             );
           },
           style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(const Color(0xFFFFE401))),
+            backgroundColor:
+                MaterialStateProperty.all(const Color(0xFFFFE401)),
+          ),
           child: const Text(
             'START',
             style: TextStyle(color: Colors.black, fontSize: 18),

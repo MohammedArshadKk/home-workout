@@ -93,7 +93,7 @@ class intermediateWorkOut extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) =>const ArmIntermediateScreen()));
+                      builder: (ctx) => ArmIntermediateScreen()));
                 },
                 child: Container(
                   height: 170,
@@ -125,7 +125,7 @@ class intermediateWorkOut extends StatelessWidget {
               child: InkWell(
                  onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) =>const LegIntermediateScreen()));
+                      builder: (ctx) => LegIntermediateScreen()));
                 },
                 child: Container(
                   height: 170,

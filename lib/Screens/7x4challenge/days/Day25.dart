@@ -1,12 +1,11 @@
-// ignore_for_file: unused_field
+
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutstart.dart';
+import 'package:home_workout/Screens/7x4challenge/workoutStartFullbody/workout_rest_fullbody.dart';
+import 'package:home_workout/Screens/workout/workoutInformation.dart';
 import 'package:home_workout/admin/functions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Day25Screen extends StatefulWidget {
   const Day25Screen({Key? key}) : super(key: key);
@@ -16,25 +15,7 @@ class Day25Screen extends StatefulWidget {
 }
 
 class _Day25ScreenState extends State<Day25Screen> {
-  late SharedPreferences _prefs;
-  bool _gifLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPrefs();
-  }
-
-  _loadPrefs() async {
-    _prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _gifLoaded = _prefs.getBool('gifLoaded') ?? false;
-    });
-  }
-
-  _savePrefs() async {
-    await _prefs.setBool('gifLoaded', true);
-  }
+  List<QueryDocumentSnapshot<Object?>>? filteredDataListNew;
 
   @override
   Widget build(BuildContext context) {
@@ -113,13 +94,12 @@ class _Day25ScreenState extends State<Day25Screen> {
                       shrinkWrap: true,
                       itemCount: filteredDataList.length,
                       itemBuilder: (context, index) {
-                        final Map<String, dynamic> map =
-                            filteredDataList[index].data()
-                                as Map<String, dynamic>;
+                        final Map<String, dynamic> map = filteredDataList[index]
+                            .data() as Map<String, dynamic>;
                         final id = map['duration'];
                         final imgeUrl = map['imageUrl'];
                         final workoutName = map['workoutName'];
-                        final descriptionWorkout = map['description'];
+                        filteredDataListNew = filteredDataList;
 
                         return Column(
                           children: [
@@ -129,11 +109,8 @@ class _Day25ScreenState extends State<Day25Screen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          WorkoutDiscrption(
-                                        imgeUrl: imgeUrl,
-                                        workoutName: workoutName,
-                                        descriptionWorkout: descriptionWorkout,
+                                      builder: (context) => WorkoutDiscrption(
+                                        filteredDataList: filteredDataList,
                                       ),
                                     ),
                                   );
@@ -180,8 +157,10 @@ class _Day25ScreenState extends State<Day25Screen> {
           color: Colors.white,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => WorkoutStartScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) => WorkoutRestScreenFullbody(
+                        filteredDataList: filteredDataListNew,
+                      )));
             },
             style: ButtonStyle(
                 backgroundColor:

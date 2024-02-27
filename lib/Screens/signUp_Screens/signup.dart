@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:home_workout/Screens/home/homeScreen.dart';
 import 'package:home_workout/Screens/home/navigation.dart';
 import 'package:home_workout/common/toast.dart';
 import 'package:home_workout/firebaseimplimantation/firebase_auth_services.dart';
@@ -226,7 +225,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       print('successfully created');
       sharedPreferences = await SharedPreferences.getInstance();
       sharedPreferences!.setBool('isLoggedIn', true);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) =>  CustomBottomNavigationBar()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) =>  BottomNavigationBarWorkout()));
     } else {
       showToast(message: 'some error happened');
     }
@@ -245,7 +244,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         await _firebaseAuth.signInWithCredential(credential);
         sharedPreferences = await SharedPreferences.getInstance();
         sharedPreferences!.setBool('isLoggedIn', true);
-        await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>HomeScreen()), (route) => false);
+        await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>BottomNavigationBarWorkout()), (route) => false);
       }
     } catch (e) {
       showToast(message: 'some error happened: $e');

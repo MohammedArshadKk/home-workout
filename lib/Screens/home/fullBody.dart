@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/7x4challenge/7X4Challenge.dart';
 
-class fullBody7X4 extends StatelessWidget {
-  const fullBody7X4({super.key});
+class FullBody7x4 extends StatelessWidget {
+  const FullBody7x4({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
                       children: <Widget>[
                         Container(
-                          width: 500,
+                          width: double.infinity,
                           height: 100,
                           color: const Color(0xFFFFE401),
                         ),

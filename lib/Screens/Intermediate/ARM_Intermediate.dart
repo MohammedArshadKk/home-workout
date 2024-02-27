@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutstart.dart';
+import 'package:home_workout/Screens/workout/workoutInformation.dart';
+import 'package:home_workout/Screens/workout/workoutRest.dart';
 import 'package:home_workout/admin/functions.dart';
 
 class  ArmIntermediateScreen extends StatelessWidget {
-  const  ArmIntermediateScreen({Key? key});
-
+   ArmIntermediateScreen({Key? key}): super(key: key);
+   List<QueryDocumentSnapshot<Object?>>? filteredDataListNew;
   @override
   Widget build(BuildContext context) {
     return Scaffold(                                                                     
@@ -96,7 +96,8 @@ class  ArmIntermediateScreen extends StatelessWidget {
                         final imgeUrl = map['imageUrl'];
                         final workoutName = map['workoutName'];
                         final descriptionWorkout = map['description'];
-
+                        filteredDataListNew=filteredDataList;
+                        
                         return Column(
                           children: [
                             SizedBox(
@@ -107,9 +108,7 @@ class  ArmIntermediateScreen extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           WorkoutDiscrption(
-                                        imgeUrl: imgeUrl,
-                                        workoutName: workoutName,
-                                        descriptionWorkout: descriptionWorkout,
+                                         filteredDataList: filteredDataList,
                                       ),
                                     ),
                                   );
@@ -123,6 +122,7 @@ class  ArmIntermediateScreen extends StatelessWidget {
                                   ),
                                   child: CachedNetworkImage(
                                     imageUrl: imgeUrl,
+                                    placeholder: (context, url) => Image.asset('assets/praceholder.jpg'),
                                     errorWidget: (context, url, error) =>
                                      const  Icon(Icons.error),
                                     fit: BoxFit.cover,
@@ -157,7 +157,9 @@ class  ArmIntermediateScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (ctx) => WorkoutStartScreen()),
+              MaterialPageRoute(builder: (ctx) => WorkoutRestScreen(
+                filteredDataList: filteredDataListNew,
+              )),
             );
           },
           style: ButtonStyle(

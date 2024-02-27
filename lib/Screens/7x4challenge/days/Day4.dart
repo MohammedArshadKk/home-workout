@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutstart.dart';
+import 'package:home_workout/Screens/7x4challenge/workoutStartFullbody/workout_rest_fullbody.dart';
+import 'package:home_workout/Screens/workout/workoutInformation.dart';
 import 'package:home_workout/admin/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,8 +15,7 @@ class Day4Screen extends StatefulWidget {
 
 class _Day4ScreenState extends State<Day4Screen> {
   late SharedPreferences _prefs;
-  bool _gifLoaded = false;
-
+  List<QueryDocumentSnapshot<Object?>>? filteredDataListNew;
   @override
   void initState() {
     super.initState();
@@ -26,7 +25,6 @@ class _Day4ScreenState extends State<Day4Screen> {
   _loadPrefs() async {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
-      _gifLoaded = _prefs.getBool('gifLoaded') ?? false;
     });
   }
 
@@ -42,7 +40,7 @@ class _Day4ScreenState extends State<Day4Screen> {
         backgroundColor: const Color(0xFFFFE401),
         title: const Center(
           child: Text(
-            'DAY 4        ',
+            'DAY 3        ',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
@@ -117,8 +115,7 @@ class _Day4ScreenState extends State<Day4Screen> {
                         final id = map['duration'];
                         final imgeUrl = map['imageUrl'];
                         final workoutName = map['workoutName'];
-                        final descriptionWorkout = map['description'];
-
+                        filteredDataListNew=filteredDataList;
                         return Column(
                           children: [
                             SizedBox(
@@ -129,9 +126,8 @@ class _Day4ScreenState extends State<Day4Screen> {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           WorkoutDiscrption(
-                                        imgeUrl: imgeUrl,
-                                        workoutName: workoutName,
-                                        descriptionWorkout: descriptionWorkout,
+                                        filteredDataList: filteredDataList,
+                                          
                                       ),
                                     ),
                                   );
@@ -179,7 +175,9 @@ class _Day4ScreenState extends State<Day4Screen> {
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => WorkoutStartScreen()));
+                  MaterialPageRoute(builder: (ctx) => WorkoutRestScreenFullbody(
+                    filteredDataList:filteredDataListNew,
+                  )));
             },
             style: ButtonStyle(
                 backgroundColor:

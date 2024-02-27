@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutstart.dart';
+import 'package:home_workout/Screens/7x4challenge/workoutStartFullbody/workout_rest_fullbody.dart';
+import 'package:home_workout/Screens/workout/workoutInformation.dart';
 import 'package:home_workout/admin/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,8 +15,7 @@ class Day8Screen extends StatefulWidget {
 
 class _Day8ScreenState extends State<Day8Screen> {
   late SharedPreferences _prefs;
-  bool _gifLoaded = false;
-
+  List<QueryDocumentSnapshot<Object?>>? filteredDataListNew;
   @override
   void initState() {
     super.initState();
@@ -26,7 +25,6 @@ class _Day8ScreenState extends State<Day8Screen> {
   _loadPrefs() async {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
-      _gifLoaded = _prefs.getBool('gifLoaded') ?? false;
     });
   }
 
@@ -117,7 +115,7 @@ class _Day8ScreenState extends State<Day8Screen> {
                         final id = map['duration'];
                         final imgeUrl = map['imageUrl'];
                         final workoutName = map['workoutName'];
-                        final descriptionWorkout = map['description'];
+                       filteredDataListNew=filteredDataList;
 
                         return Column(
                           children: [
@@ -129,9 +127,7 @@ class _Day8ScreenState extends State<Day8Screen> {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           WorkoutDiscrption(
-                                        imgeUrl: imgeUrl,
-                                        workoutName: workoutName,
-                                        descriptionWorkout: descriptionWorkout,
+                                         filteredDataList: filteredDataList,
                                       ),
                                     ),
                                   );
@@ -179,7 +175,9 @@ class _Day8ScreenState extends State<Day8Screen> {
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => WorkoutStartScreen()));
+                  MaterialPageRoute(builder: (ctx) => WorkoutRestScreenFullbody(
+                    filteredDataList:filteredDataListNew,
+                  )));
             },
             style: ButtonStyle(
                 backgroundColor:

@@ -37,7 +37,7 @@ class _LoginscreenState extends State<Loginscreen> {
     bool isLoggedIn = sharedPreferences!.getBool('isLoggedIn') ?? false;
 
     if (isLoggedIn) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) =>  CustomBottomNavigationBar()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) =>  BottomNavigationBarWorkout()));
     }
   }
 
@@ -220,7 +220,7 @@ class _LoginscreenState extends State<Loginscreen> {
     if (user != null) {
       print('successfully created');
       sharedPreferences!.setBool('isLoggedIn', true);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => CustomBottomNavigationBar()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => BottomNavigationBarWorkout()));
     } else {
       showToast(message: 'Some error happened');
     }
@@ -238,7 +238,7 @@ class _LoginscreenState extends State<Loginscreen> {
         );
         await _firebaseAuth.signInWithCredential(credential);
         sharedPreferences!.setBool('isLoggedIn', true);
-        await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>CustomBottomNavigationBar()), (route) => false);
+        await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>BottomNavigationBarWorkout()), (route) => false);
       }
     } catch (e) {
       showToast(message: 'Some error happened: $e');

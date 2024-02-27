@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/7x4challenge/days/Day1.dart';
+import 'package:home_workout/Screens/7x4challenge/days/Day2.dart';
 import 'package:home_workout/Screens/onclick.dart';
 
 class Week1 extends StatefulWidget {
@@ -11,6 +12,7 @@ class Week1 extends StatefulWidget {
 class _Week1State extends State<Week1> {
   @override
   Widget build(BuildContext context) {
+    
     return Column(
       children: [
         const Text(
@@ -55,6 +57,11 @@ class _Week1State extends State<Week1> {
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: Colors.grey)),
           child: ListTile(
+            onTap: () {
+              if (Onclick.onclick==true) {
+                Navigator.push(context, MaterialPageRoute(builder: (ctx)=>Day2Screen()));
+              }
+            },
             leading: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -66,7 +73,7 @@ class _Week1State extends State<Week1> {
               ],
             ),
             trailing: IconButton(
-                onPressed: () {}, icon: Onclick.onclick?Onclick.IconUnloked :Icon(Icons.lock_outline)),
+                onPressed: () {}, icon: Onclick.onclick?Onclick.IconUnloked :const Icon(Icons.lock_outline)),
           ),
         ),
         const SizedBox(
@@ -197,5 +204,11 @@ class _Week1State extends State<Week1> {
         ),
       ],
     );
+    
   }
+ Future onTapDays()async{
+   setState(() {
+   });
+   Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>Day2Screen()));
+ }
 }

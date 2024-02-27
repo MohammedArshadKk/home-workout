@@ -13,11 +13,15 @@ class BiginnerWorkOut extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text(
-            'BEGINNER',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          child: Center(
+            child: Text(
+              'BEGINNER',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
           ),
         ),
+
+
         Row(
           children: [
             Padding(

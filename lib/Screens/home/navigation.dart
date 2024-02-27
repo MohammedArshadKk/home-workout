@@ -1,17 +1,17 @@
-// custom_bottom_navigation_bar.dart
+
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/Daily_plans/DailyPlansPage.dart';
 import 'package:home_workout/Screens/home/homeScreen.dart';
 import 'package:home_workout/Screens/report/reportpage.dart';
 import 'package:home_workout/Screens/settings/settingsPage.dart';
-class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({Key? key}) : super(key: key);
+class BottomNavigationBarWorkout extends StatefulWidget {
+  const BottomNavigationBarWorkout({Key? key,}) : super(key: key);
 
   @override
-  _CustomBottomNavigationBarState createState() =>
-      _CustomBottomNavigationBarState();
+  _BottomNavigationBarWorkoutState createState() =>
+      _BottomNavigationBarWorkoutState();
 }
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+class _BottomNavigationBarWorkoutState extends State<BottomNavigationBarWorkout> {
   int _currentIndex = 0;
   final List<Widget> _screens = [
     const HomeScreen(),

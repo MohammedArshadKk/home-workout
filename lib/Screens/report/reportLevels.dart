@@ -11,7 +11,7 @@ class ReportLevels extends StatefulWidget {
 class _ReportLevelsState extends State<ReportLevels> {
   @override
   Widget build(BuildContext context) {
-    num beginnerPercentage = 1.44 * 50;
+    num beginnerPercentage = 1.44 * 20;
     num intermediatePercentage = 1.44 * 10;
     num advancedPercentage = 1.44 * 0;
 

@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutInformation.dart';
-import 'package:home_workout/Screens/7x4challenge/workout/workoutstart.dart';
+import 'package:home_workout/Screens/workout/workoutInformation.dart';
+import 'package:home_workout/Screens/workout/workoutRest.dart';
 import 'package:home_workout/admin/functions.dart';
 
 class ChestIntermediateScreen extends StatelessWidget {
-  const ChestIntermediateScreen({Key? key});
-
+  ChestIntermediateScreen({Key? key}): super(key: key);
+  List<QueryDocumentSnapshot<Object?>>? filteredDataListNew;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,7 @@ class ChestIntermediateScreen extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height,
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: showDaysListAsStream(), 
+                  stream: showDaysListAsStream(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
@@ -73,7 +73,8 @@ class ChestIntermediateScreen extends StatelessWidget {
                       return Text('No data available');
                     }
 
-                    final List<QueryDocumentSnapshot> dataList = snapshot.data!.docs;
+                    final List<QueryDocumentSnapshot> dataList =
+                        snapshot.data!.docs;
                     final List<QueryDocumentSnapshot> filteredDataList =
                         dataList.where((doc) {
                       final Map<String, dynamic> data =
@@ -89,14 +90,13 @@ class ChestIntermediateScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: filteredDataList.length,
                       itemBuilder: (context, index) {
-                        final Map<String, dynamic> map =
-                            filteredDataList[index].data()
-                                as Map<String, dynamic>;
+                        final Map<String, dynamic> map = filteredDataList[index]
+                            .data() as Map<String, dynamic>;
                         final id = map['duration'];
                         final imgeUrl = map['imageUrl'];
                         final workoutName = map['workoutName'];
                         final descriptionWorkout = map['description'];
-
+                        filteredDataListNew=filteredDataList;
                         return Column(
                           children: [
                             SizedBox(
@@ -105,11 +105,8 @@ class ChestIntermediateScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          WorkoutDiscrption(
-                                        imgeUrl: imgeUrl,
-                                        workoutName: workoutName,
-                                        descriptionWorkout: descriptionWorkout,
+                                      builder: (context) => WorkoutDiscrption(
+                                         filteredDataList: filteredDataList,
                                       ),
                                     ),
                                   );
@@ -123,8 +120,10 @@ class ChestIntermediateScreen extends StatelessWidget {
                                   ),
                                   child: CachedNetworkImage(
                                     imageUrl: imgeUrl,
+                                    placeholder: (context, url) =>
+                                        Image.asset('assets/praceholder.jpg'),
                                     errorWidget: (context, url, error) =>
-                                     const  Icon(Icons.error),
+                                        const Icon(Icons.error),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -157,7 +156,9 @@ class ChestIntermediateScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (ctx) => WorkoutStartScreen()),
+              MaterialPageRoute(builder: (ctx) => WorkoutRestScreen(
+                filteredDataList: filteredDataListNew,
+              )),
             );
           },
           style: ButtonStyle(
