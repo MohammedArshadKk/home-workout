@@ -60,7 +60,7 @@ class HistoryFullbodyAdapter extends TypeAdapter<HistoryFullbody> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return HistoryFullbody(
-      days: fields[1] as int?,
+      days: fields[1] as num?,
       id: fields[0] as int?,
     );
   }
@@ -128,6 +128,86 @@ class BMImodelAdapter extends TypeAdapter<BMImodel> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BMImodelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class HistoryLevelsAdapter extends TypeAdapter<HistoryLevels> {
+  @override
+  final int typeId = 4;
+
+  @override
+  HistoryLevels read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return HistoryLevels(
+      levels: fields[1] as num?,
+      id: fields[0] as int?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, HistoryLevels obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.levels);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HistoryLevelsAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class DailyRoutineModelAdapter extends TypeAdapter<DailyRoutineModel> {
+  @override
+  final int typeId = 5;
+
+  @override
+  DailyRoutineModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return DailyRoutineModel(
+      wakeUp: fields[1] as dynamic,
+      workoutTime: fields[2] as dynamic,
+      sleep: fields[3] as dynamic,
+      id: fields[0] as int?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, DailyRoutineModel obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.wakeUp)
+      ..writeByte(2)
+      ..write(obj.workoutTime)
+      ..writeByte(3)
+      ..write(obj.sleep);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DailyRoutineModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

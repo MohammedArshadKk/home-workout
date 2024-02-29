@@ -47,7 +47,6 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
             final Map<String, dynamic> map = widget.filteredDataList![length].data() as Map<String, dynamic>;
             final imageUrl = map['imageUrl'];
             final workoutName = map['workoutName'];
-            final descriptionWorkout = map['description'];
             filteredDataListNew = widget.filteredDataList;
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,

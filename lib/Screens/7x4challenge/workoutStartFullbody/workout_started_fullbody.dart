@@ -7,7 +7,7 @@ import 'package:home_workout/Screens/onclick.dart';
 import 'package:home_workout/database/functions/db_function_percentage.dart';
 import 'package:home_workout/database/functions/db_functions.dart';
 import 'package:home_workout/database/modelDatabase/database_model.dart';
-import 'package:home_workout/database/modelDatabase/model_fullbody.dart';
+import 'package:home_workout/screens/workout/workoutStarted.dart';
 
 class WorkoutStartedScreenFullBody extends StatefulWidget {
   final List<QueryDocumentSnapshot<Object?>>? filteredDataList;
@@ -22,17 +22,13 @@ class WorkoutStartedScreenFullBody extends StatefulWidget {
       _WorkoutStartedScreenFullBodyState();
 }
 
-dynamic imageUrlNew;
-String? workoutNameNew;
-String? durationNew;
-late int count=0;
-
 class _WorkoutStartedScreenFullBodyState
     extends State<WorkoutStartedScreenFullBody> {
   int _timerValue = 60;
   Timer? _timer;
   bool _isPaused = false;
   int length = 0;
+  int count = 0;
 
   @override
   void initState() {
@@ -60,9 +56,9 @@ class _WorkoutStartedScreenFullBodyState
 
             final Map<String, dynamic> map =
                 widget.filteredDataList![length].data() as Map<String, dynamic>;
-            imageUrlNew = map['imageUrl'];
-             workoutNameNew = map['workoutName'];
-             durationNew = map['duration'];
+            dynamic imageUrlNew = map['imageUrl'];
+            String? workoutNameNew = map['workoutName'];
+            String? durationNew = map['duration'];
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -84,10 +80,10 @@ class _WorkoutStartedScreenFullBodyState
                   children: [
                     Text(
                       '$workoutNameNew',
-                      style:
-                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
                     ),
-                    Text(durationNew??'',
+                    Text(durationNew ?? '',
                         style: const TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 24))
                   ],
@@ -104,7 +100,7 @@ class _WorkoutStartedScreenFullBodyState
                   ],
                 ),
                 const SizedBox(height: 30),
-                SizedBox(      
+                SizedBox(
                   width: 280,
                   height: 50,
                   child: ElevatedButton.icon(
@@ -153,12 +149,12 @@ class _WorkoutStartedScreenFullBodyState
                       }
                     });
                     final _History = HistoryModel(
-                        gif: imageUrlNew,
-                        workOutName: workoutNameNew,
-                        duration: durationNew);
+                      gif: imageUrlNew,
+                      workOutName: workoutNameNew,
+                      duration: durationNew,
+                    );
                     addWorkoutHistory(_History);
                     _startTimer();
-                   
                   },
                   icon: const Row(
                     children: [
@@ -190,13 +186,13 @@ class _WorkoutStartedScreenFullBodyState
             if (length >= widget.filteredDataList!.length) {
               length = widget.filteredDataList!.length - 1;
               _showBottomSheet(context);
-    
             }
             final _History = HistoryModel(
-                        gif: imageUrlNew,
-                        workOutName: workoutNameNew,
-                        duration: durationNew);
-                    addWorkoutHistory(_History);
+              gif: imageUrlNew,
+              workOutName: workoutNameNew,
+              duration: durationNew,
+            );
+            addWorkoutHistory(_History);
           });
           _startTimer();
           return;
@@ -236,7 +232,7 @@ class _WorkoutStartedScreenFullBodyState
                 const Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Text(
-                    "Nice,you've completed exercise!",
+                    "Nice, you've completed the exercise!",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -249,13 +245,14 @@ class _WorkoutStartedScreenFullBodyState
                       onPressed: () {
                         setState(() {
                           Onclick.onclick = true;
-                          count = (count ?? 0) + 1;
+                          count++;
                         });
-
+                        print('Count: $count');
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);
-                           final _fullbody= HistoryFullbody(days: count);
-                                        addWorkoutFullbodyHistory(_fullbody);
+                         final fullBody=  HistoryFullbody(days: count);
+                         addWorkoutFullBodyHistory(fullBody);
+
                       },
                       child: const Text('DONE'),
                       style: ElevatedButton.styleFrom(

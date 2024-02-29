@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:home_workout/database/functions/db_functions.dart';
+import 'package:home_workout/database/functions/db_workoutlevels_function.dart';
 import 'package:home_workout/database/modelDatabase/database_model.dart';
 
 class WorkoutStartedScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class _WorkoutStartedScreenState extends State<WorkoutStartedScreen> {
   Timer? _timer;
   bool _isPaused = false;
   int length = 0;
+  int count=0;
 
   @override
   void initState() {
@@ -139,14 +141,16 @@ class _WorkoutStartedScreenState extends State<WorkoutStartedScreen> {
                   onPressed: () {
                     setState(() {
                       length++;
-                      if (length >= widget.filteredDataList!.length)
+                      if (length >= widget.filteredDataList!.length) {
                         length = widget.filteredDataList!.length - 1;
+                         _showBottomSheet(context);
+                      }
                     });
-                    final _History = HistoryModel(
+                    final history = HistoryModel(
                         gif: imageUrlNew,
                         workOutName: workoutNameNew,
                         duration: durationNew);
-                    addWorkoutHistory(_History);
+                    addWorkoutHistory(history);
                     _startTimer();
                   },
                   icon: const Row(
@@ -176,8 +180,10 @@ class _WorkoutStartedScreenState extends State<WorkoutStartedScreen> {
           timer.cancel();
           setState(() {
             length++;
-            if (length >= widget.filteredDataList!.length)
+            if (length >= widget.filteredDataList!.length) {
               length = widget.filteredDataList!.length - 1;
+              _showBottomSheet(context);
+            }
           });
           _startTimer();
           return;
@@ -199,5 +205,56 @@ class _WorkoutStartedScreenState extends State<WorkoutStartedScreen> {
     setState(() {
       _isPaused = !_isPaused;
     });
+  }
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 400,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(30)),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(child: Image.asset('assets/congratulations.gif')),
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    "Nice, you've completed the exercise!",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 40,
+                    width: double.maxFinite,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          
+                           count++;
+                        });
+                        print('Count: $count');
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                              final levals= HistoryLevels(levels: count);
+                              addWorkoutLevelsHistory(levals);
+                      },
+                      child: const Text('DONE'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFFE401),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

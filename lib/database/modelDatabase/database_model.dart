@@ -1,5 +1,4 @@
 
-import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
 part 'database_model.g.dart';
@@ -28,7 +27,7 @@ class HistoryFullbody{
   @HiveField(0)
   int? id;
   @HiveField(1)
- final int? days;
+  num? days;
 
   HistoryFullbody({required this.days ,this.id});
 }
@@ -46,5 +45,28 @@ final String bmi;
 final String health ;
 
   BMImodel({required this.weight, required this.height, required this.bmi, required this.health,this.id});
+
+}
+@HiveType(typeId: 4)
+class HistoryLevels{
+  @HiveField(0)
+  int? id;
+  @HiveField(1)
+  num? levels;
+
+  HistoryLevels({required this.levels ,this.id});
+}
+@HiveType(typeId: 5)
+class DailyRoutineModel{
+@HiveField(0)
+int? id;
+@HiveField(1)
+final dynamic wakeUp;
+@HiveField(2)
+final dynamic workoutTime;
+@HiveField(3)
+final dynamic sleep;
+
+  DailyRoutineModel({required this.wakeUp, required this.workoutTime, required this.sleep,this.id});
 
 }

@@ -26,6 +26,12 @@ void main() async {
   if(!Hive.isAdapterRegistered(BMImodelAdapter().typeId)){
     Hive.registerAdapter(BMImodelAdapter());
   }
+  if(!Hive.isAdapterRegistered(HistoryLevelsAdapter().typeId)){
+    Hive.registerAdapter(HistoryLevelsAdapter());
+  }
+  if(!Hive.isAdapterRegistered(DailyRoutineModelAdapter().typeId)){
+    Hive.registerAdapter(DailyRoutineModelAdapter());
+  }
   runApp(const MyApp());
 
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:home_workout/database/functions/db_workoutlevels_function.dart';
+import 'package:home_workout/database/modelDatabase/database_model.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ReportLevels extends StatefulWidget {
@@ -11,91 +13,46 @@ class ReportLevels extends StatefulWidget {
 class _ReportLevelsState extends State<ReportLevels> {
   @override
   Widget build(BuildContext context) {
-    num beginnerPercentage = 1.44 * 20;
-    num intermediatePercentage = 1.44 * 10;
-    num advancedPercentage = 1.44 * 0;
-
+    // num beginnerPercentage = 1.44 * 20;
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Container(
-            height: 200,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
+          child: ValueListenableBuilder(
+            valueListenable: historyLevelsListNotifire,
+            builder:  (BuildContext ctx, List<HistoryLevels> historylevelsList, Widget? child){
+ final data = historylevelsList.isNotEmpty ? historylevelsList[0] : null;
+        final daysCompleted = data?.levels ?? 0;
+        double percentage = 8.33 * daysCompleted;
+     return Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      SizedBox(height: 180,),
+                      const SizedBox(
+                        height: 180,
+                      ),
                       Expanded(
                         child: Column(
                           children: [
                             const Text(
-                              'BEGINNER',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                              'WORKOUT LEVELS',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight:FontWeight.bold),  
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 100,
+                            ),
                             CircularPercentIndicator(
-                              radius: 50.0,
+                              radius: 100.0,
                               lineWidth: 3.0,
                               animation: true,
-                              percent: beginnerPercentage / 100,
+                              percent: percentage / 100,
                               center: Text(
-                                '${beginnerPercentage.round()}%',
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              progressColor: const Color(0xFFFFE401),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 20,),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Text(
-                              'INTERMEDIATE',
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(height: 10,),
-                            CircularPercentIndicator(
-                              radius: 50.0,
-                              lineWidth: 3.0, 
-                              animation: true,
-                              percent: intermediatePercentage / 100, 
-                              center: Text(
-                                '${intermediatePercentage.round()}%',
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              progressColor: const Color(0xFFFFE401),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 20,),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Text(
-                              'ADVANCED',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(height: 10,),
-                            CircularPercentIndicator(
-                              radius: 50.0,
-                              lineWidth: 3.0,
-                              animation: true,
-                              percent: advancedPercentage / 100, 
-                              center: Text(
-                                '${advancedPercentage.round()}%',
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                '${percentage.round()}%',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                               progressColor: const Color(0xFFFFE401),
                             ),
@@ -106,7 +63,9 @@ class _ReportLevelsState extends State<ReportLevels> {
                   ),
                 )
               ],
-            ),
+            );
+            },
+            
           ),
         ),
       ],

@@ -1,26 +1,37 @@
-// ignore_for_file: invalid_use_of_visible_for_testing_member
+// ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:home_workout/database/modelDatabase/database_model.dart';
 
-ValueNotifier<List<HistoryFullbody>> historyListFullbodyNotifire=ValueNotifier([]);
-Future<void> addWorkoutFullbodyHistory(HistoryFullbody value)async{
-  final historyDb= await Hive.openBox('HistoryFullbody_db');
- historyListFullbodyNotifire.value.add(value);
- historyListFullbodyNotifire.notifyListeners();
-//  print(value.toString());
+ValueNotifier<List<HistoryFullbody>> historyFullBodyListNotifire = ValueNotifier([]);
+
+Future<void> addWorkoutFullBodyHistory(HistoryFullbody value) async {
+  final historyDb = await Hive.openBox('HistoryFullBdy_db');
+  
+  if (historyFullBodyListNotifire.value.isEmpty) {
+    final id = await historyDb.add(value);
+    value.id = id;
+    historyFullBodyListNotifire.value.add(value);
+  } else {
+    final firstItem = await historyDb.getAt(0) as HistoryFullbody?;
+    if (firstItem != null) {        
+      firstItem.days = (firstItem.days ?? 0) + 1.1;
+      historyDb.putAt(0, firstItem);
+    } else {
+      
+      final id = await historyDb.add(value);
+      value.id = id;
+      historyFullBodyListNotifire.value.add(value);
+    }
+  }
+  
+  historyFullBodyListNotifire.notifyListeners();
 }
-Future<void>getAllFullbodyHistory()async{
-   final historyDb= await Hive.openBox('HistoryFullbody_db');
-        
-  historyListFullbodyNotifire.value.clear();
-  historyListFullbodyNotifire.value.addAll(historyDb.values.cast<HistoryFullbody>());
-   historyListFullbodyNotifire.notifyListeners();
-}
-Future<void> updateWorkoutFullbodyHistory(HistoryFullbody updatedValue) async {
-  final historyDb = await Hive.openBox('HistoryFullbody_db');
-   
-    await historyDb.put(updatedValue.days, updatedValue);
-    historyListFullbodyNotifire.notifyListeners();
+
+Future<void> getAllFullBodyHistory() async {
+  final historyDb = await Hive.openBox('HistoryFullBdy_db');
+  historyFullBodyListNotifire.value.clear();
+  historyFullBodyListNotifire.value.addAll(historyDb.values.cast<HistoryFullbody>());
+  historyFullBodyListNotifire.notifyListeners();
 }

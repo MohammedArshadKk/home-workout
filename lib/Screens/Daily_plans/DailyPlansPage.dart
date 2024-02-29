@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/Daily_plans/Workout_creator.dart';
-import 'package:home_workout/Screens/Daily_plans/daily_routine.dart';
 import 'package:home_workout/Screens/Daily_plans/screen/daily_routine_edit_screen.dart';
 import 'package:home_workout/Screens/Daily_plans/user_workout.dart';
+import 'package:home_workout/database/functions/db_dailyRoutine_function.dart';
+import 'package:home_workout/screens/Daily_plans/daily_routine.dart';
 
 class DailyPlansPage extends StatefulWidget {
   const DailyPlansPage({Key? key}) : super(key: key);
@@ -12,12 +13,9 @@ class DailyPlansPage extends StatefulWidget {
 }
 
 class _DailyPlansPageState extends State<DailyPlansPage> {
-  String wakeUpTime = '';
-  String workoutTime = '';
-  String sleepTime = '';
-
   @override
   Widget build(BuildContext context) {
+    getAlldailyRoutineDetails();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,25 +32,14 @@ class _DailyPlansPageState extends State<DailyPlansPage> {
           children: [
             const Workout_creator(),
             const User_workout(),
-            DailyRoutine(
-              wakeUpTime: wakeUpTime,
-              workoutTime: workoutTime,
-              sleepTime: sleepTime,
-            ),
+            const DailyRoutine(),
             ElevatedButton(
-              onPressed: () async {
-                final updatedRoutine = await Navigator.of(context).push(
+              onPressed: ()  {
+                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (ctx) => const DailyRoutineEditScreen(),
                   ),
                 );
-                if (updatedRoutine != null) {
-                  setState(() {
-                    wakeUpTime = updatedRoutine['wakeUpTime'];
-                    workoutTime = updatedRoutine['workoutTime'];
-                    sleepTime = updatedRoutine['sleepTime'];
-                  });
-                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFFFE401), 

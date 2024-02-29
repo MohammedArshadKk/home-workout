@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:home_workout/database/functions/db_dailyRoutine_function.dart';
+import 'package:home_workout/database/modelDatabase/database_model.dart';
 
 class DailyRoutineEditScreen extends StatefulWidget {
   const DailyRoutineEditScreen({Key? key}) : super(key: key);
@@ -23,138 +25,162 @@ class _DailyRoutineEditScreenState extends State<DailyRoutineEditScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildTimePickerButton(
-                  text: 'SET WAKE UP TIME',
-                  selectedTime: selectedWakeUpTime,
-                  onPressed: () => _showTimePicker((time) {
-                    setState(() {
-                      selectedWakeUpTime = time;
-                    });
-                  }),
-                ),
-                _buildTimeDisplay(selectedTime: selectedWakeUpTime),
-                SizedBox(height: 60),
-                _buildTimePickerButton(
-                  text: 'SET WORKOUT TIME',
-                  selectedTime: selectedWorkoutTime,
-                  onPressed: () => _showTimePicker((time) {
-                    setState(() {
-                      selectedWorkoutTime = time;
-                    });
-                  }),
-                ),
-                _buildTimeDisplay(selectedTime: selectedWorkoutTime),
-                SizedBox(height: 60),
-                _buildTimePickerButton(
-                  text: 'SET SLEEP TIME',
-                  selectedTime: selectedSleepTime,
-                  onPressed: () => _showTimePicker((time) {
-                    setState(() {
-                      selectedSleepTime = time;
-                    });
-                  }),
-                ),
-                _buildTimeDisplay(selectedTime: selectedSleepTime),
-                SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: _saveRoutine,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFFFE401)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    'SAVE',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTimePickerButton({
-    required String text,
-    required TimeOfDay selectedTime,
-    required VoidCallback onPressed,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          text,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: onPressed,
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFFFE401)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Column(
+            children: [
+              const Text(
+                'SET WAKE UP TIME',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-            ),
-          ),
-          child: const Text(
-            'SET',
-            style: TextStyle(color: Colors.black),
+              const SizedBox(
+                height: 29,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final TimeOfDay? timeOfDay = await showTimePicker(
+                    context: context,
+                    initialTime: selectedWakeUpTime,
+                    initialEntryMode: TimePickerEntryMode.dial,
+                  );
+                  if (timeOfDay != null) {
+                    setState(() {
+                      selectedWakeUpTime = timeOfDay;
+                    });
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(const Color(0xFFFFE401)),
+                ),
+                child: const Text('SET'),
+              ),
+              const SizedBox(
+                height: 29,
+              ),
+              Container(
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                ),
+                child: Center(
+                    child: Text(
+                        '${selectedWakeUpTime.hourOfPeriod > 12 ? selectedWakeUpTime.hourOfPeriod - 12 : selectedWakeUpTime.hourOfPeriod}:${selectedWakeUpTime.minute}${selectedWakeUpTime.period.index == 0 ? 'AM' : 'PM'}')),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              const Text(
+                'SET WORK OUT TIME',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 29,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final TimeOfDay? timeOfDay = await showTimePicker(
+                    context: context,
+                    initialTime: selectedWorkoutTime,
+                    initialEntryMode: TimePickerEntryMode.dial,
+                  );
+                  if (timeOfDay != null) {
+                    setState(() {
+                      selectedWorkoutTime = timeOfDay;
+                    });
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(const Color(0xFFFFE401)),
+                ),
+                child: const Text('SET'),
+              ),
+              const SizedBox(
+                height: 29,
+              ),
+              Container(
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                ),
+                child: Center(
+                    child: Text(
+                        '${selectedWorkoutTime.hourOfPeriod > 12 ? selectedWorkoutTime.hourOfPeriod - 12 : selectedWorkoutTime.hourOfPeriod}:${selectedWorkoutTime.minute}${selectedWorkoutTime.period.index == 0 ? 'AM' : 'PM'}')),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              const Text(
+                'SET SLEEP TIME',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 29,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final TimeOfDay? timeOfDay = await showTimePicker(
+                    context: context,
+                    initialTime: selectedSleepTime,
+                    initialEntryMode: TimePickerEntryMode.dial,
+                  );
+                  if (timeOfDay != null) {
+                    setState(() {
+                      selectedSleepTime = timeOfDay;
+                    });
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(const Color(0xFFFFE401)),
+                ),
+                child: const Text('SET'),
+              ),
+              const SizedBox(
+                height: 29,
+              ),
+              Container(
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                ),
+                child: Center(
+                    child: Text(
+                        '${selectedSleepTime.hourOfPeriod > 12 ? selectedSleepTime.hourOfPeriod - 12 : selectedSleepTime.hourOfPeriod}:${selectedSleepTime.minute}${selectedSleepTime.period.index == 0 ? 'AM' : 'PM'}')),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final wakeUp =
+                      '${selectedWakeUpTime.hourOfPeriod > 12 ? selectedWakeUpTime.hourOfPeriod - 12 : selectedWakeUpTime.hourOfPeriod}:${selectedWakeUpTime.minute}${selectedWakeUpTime.period.index == 0 ? 'AM' : 'PM'}';
+                  final workoutTime =
+                      '${selectedWorkoutTime.hourOfPeriod > 12 ? selectedWorkoutTime.hourOfPeriod - 12 : selectedWorkoutTime.hourOfPeriod}:${selectedWorkoutTime.minute}${selectedWorkoutTime.period.index == 0 ? 'AM' : 'PM'}';
+                  final sleep =
+                      '${selectedSleepTime.hourOfPeriod > 12 ? selectedSleepTime.hourOfPeriod - 12 : selectedSleepTime.hourOfPeriod}:${selectedSleepTime.minute}${selectedSleepTime.period.index == 0 ? 'AM' : 'PM'}';
+
+                  final dailyRoutine = DailyRoutineModel(
+                      wakeUp: wakeUp.toString(),
+                      workoutTime: workoutTime.toString(),
+                      sleep: sleep.toString());
+                  adddailyRoutineDetails(dailyRoutine);
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(const Color(0xFFFFE401)),
+                ),
+                child: const Text('SAVE'),
+              ),
+            ],
           ),
         ),
-      ],
+      )),
     );
-  }
-
-  Widget _buildTimeDisplay({required TimeOfDay selectedTime}) {
-    return Container(
-      height: 60,
-      width: 200,
-      decoration: BoxDecoration(border: Border.all()),
-      child: Center(
-        child: Text(
-          _formatTime(selectedTime),
-          style: TextStyle(fontSize: 18),
-        ),
-      ),
-    );
-  }
-
-  String _formatTime(TimeOfDay timeOfDay) {
-    final hours = timeOfDay.hourOfPeriod;
-    final minutes = timeOfDay.minute.toString().padLeft(2, '0');
-    final period = timeOfDay.period == DayPeriod.am ? 'AM' : 'PM';
-    return '$hours:$minutes $period';
-  }
-
-  Future<void> _showTimePicker(Function(TimeOfDay) onTimeSelected) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    if (timeOfDay != null) {
-      onTimeSelected(timeOfDay);
-    }
-  }
-
-  void _saveRoutine() {
-    Navigator.of(context).pop({
-      'wakeUpTime': _formatTime(selectedWakeUpTime),
-      'workoutTime': _formatTime(selectedWorkoutTime),
-      'sleepTime': _formatTime(selectedSleepTime),
-    });
   }
 }

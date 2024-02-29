@@ -28,10 +28,4 @@ Future<void> getAllBmiDetails() async {
   bmiNotifire.notifyListeners();
 }
 
- updateBmiValueNotifier(BMImodel updatedBmi)async {
-  int indexToUpdate = bmiNotifire.value.indexWhere((bmi) => bmi.id == updatedBmi.id);
-  if (indexToUpdate != -1) {
-    bmiNotifire.value[indexToUpdate] = updatedBmi;
-    bmiNotifire.notifyListeners();
-  }
-}
+

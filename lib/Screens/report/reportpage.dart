@@ -7,6 +7,7 @@ import 'package:home_workout/Screens/report/report7X4challenge.dart';
 import 'package:home_workout/Screens/report/reportLevels.dart';
 import 'package:home_workout/database/functions/db_BMI_functions.dart';
 import 'package:home_workout/database/functions/db_function_percentage.dart';
+import 'package:home_workout/database/functions/db_workoutlevels_function.dart';
 import 'package:home_workout/database/modelDatabase/database_model.dart';
 
 class ReportPage extends StatefulWidget {
@@ -26,8 +27,9 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    getAllFullbodyHistory();
+    getAllFullBodyHistory();
     getAllBmiDetails();
+    getAllLevelsHistory();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -124,14 +126,14 @@ class _ReportPageState extends State<ReportPage> {
                                         }
                                       });
 
-                                      final _Bmi = BMImodel(
+                                      final bmiMOdel = BMImodel(
                                         weight: weight.toString(),
                                         height: heightCm.toString(),
                                         bmi: bmi.toStringAsFixed(1),
                                         health: weightStatus,
                                       );
 
-                                      addBmiDetails(_Bmi);
+                                      addBmiDetails(bmiMOdel);
 
                                       weightController.clear();
                                       heightController.clear();
@@ -144,8 +146,8 @@ class _ReportPageState extends State<ReportPage> {
                             const SizedBox(height: 20),
                             ValueListenableBuilder(
                               valueListenable: bmiNotifire,
-                              builder: (BuildContext ctx, List<BMImodel> bmiList,
-                                  Widget? child) {
+                              builder: (BuildContext ctx,
+                                  List<BMImodel> bmiList, Widget? child) {
                                 final data =
                                     bmiList.isNotEmpty ? bmiList[0] : null;
                                 return Column(children: [
@@ -154,7 +156,8 @@ class _ReportPageState extends State<ReportPage> {
                                     width: 300,
                                     color: Colors.white,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'WEIGHT : ${data?.weight ?? 65}',
