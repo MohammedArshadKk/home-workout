@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/onclick.dart';
 import 'package:home_workout/database/functions/db_function_percentage.dart';
 import 'package:home_workout/database/functions/db_functions.dart';
+import 'package:home_workout/database/functions/db_levelunlocingFunction.dart';
 import 'package:home_workout/database/modelDatabase/database_model.dart';
 import 'package:home_workout/screens/workout/workoutStarted.dart';
 
@@ -21,6 +22,8 @@ class WorkoutStartedScreenFullBody extends StatefulWidget {
   _WorkoutStartedScreenFullBodyState createState() =>
       _WorkoutStartedScreenFullBodyState();
 }
+
+late Map<String, dynamic> mapNew;
 
 class _WorkoutStartedScreenFullBodyState
     extends State<WorkoutStartedScreenFullBody> {
@@ -54,11 +57,11 @@ class _WorkoutStartedScreenFullBodyState
               return const Center(child: Text("No data"));
             }
 
-            final Map<String, dynamic> map =
+            mapNew =
                 widget.filteredDataList![length].data() as Map<String, dynamic>;
-            dynamic imageUrlNew = map['imageUrl'];
-            String? workoutNameNew = map['workoutName'];
-            String? durationNew = map['duration'];
+            dynamic imageUrlNew = mapNew['imageUrl'];
+            String? workoutNameNew = mapNew['workoutName'];
+            String? durationNew = mapNew['duration'];
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -152,6 +155,7 @@ class _WorkoutStartedScreenFullBodyState
                       gif: imageUrlNew,
                       workOutName: workoutNameNew,
                       duration: durationNew,
+                      dateAndTime: DateTime.now().toString(),
                     );
                     addWorkoutHistory(_History);
                     _startTimer();
@@ -191,6 +195,7 @@ class _WorkoutStartedScreenFullBodyState
               gif: imageUrlNew,
               workOutName: workoutNameNew,
               duration: durationNew,
+              dateAndTime: DateTime.now().toString(),
             );
             addWorkoutHistory(_History);
           });
@@ -219,11 +224,14 @@ class _WorkoutStartedScreenFullBodyState
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isDismissible: false,     
       builder: (BuildContext context) {
         return Container(
           height: 400,
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(30)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+          ),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -244,15 +252,37 @@ class _WorkoutStartedScreenFullBodyState
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          Onclick.onclick = true;
-                          count++;
+                          if (mapNew['option'].toString().length == 4) {
+                            final unLocked = LevelUnlockingModel(
+                                day: int.parse(mapNew['option']
+                                    .toString()
+                                    .split('')
+                                    .last));
+                          log('valu${int.parse(mapNew['option']
+                                    .toString()
+                                    .split('')                  
+                                    .last)}');
+                            addWorkoutlevelunloking(unLocked);
+                            
+                          } else {
+                            final unLocked = LevelUnlockingModel(
+                                day: int.parse(mapNew['option']
+                                    .toString()
+                                    .substring(
+                                        mapNew['option'].toString().length -
+                                            2)));
+                            // print('unLock2 $unLocked');
+                            addWorkoutlevelunloking(unLocked);
+                          }
+
+                          log(mapNew['option']);
                         });
+                        count++;
                         print('Count: $count');
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);
-                         final fullBody=  HistoryFullbody(days: count);
-                         addWorkoutFullBodyHistory(fullBody);
-
+                        final fullBody = HistoryFullbody(days: count);
+                        addWorkoutFullBodyHistory(fullBody);
                       },
                       child: const Text('DONE'),
                       style: ElevatedButton.styleFrom(

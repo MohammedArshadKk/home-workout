@@ -20,6 +20,7 @@ class HistoryModelAdapter extends TypeAdapter<HistoryModel> {
       gif: fields[1] as dynamic,
       workOutName: fields[2] as String?,
       duration: fields[3] as String?,
+      dateAndTime: fields[4] as String,
       id: fields[0] as int?,
     );
   }
@@ -27,7 +28,7 @@ class HistoryModelAdapter extends TypeAdapter<HistoryModel> {
   @override
   void write(BinaryWriter writer, HistoryModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class HistoryModelAdapter extends TypeAdapter<HistoryModel> {
       ..writeByte(2)
       ..write(obj.workOutName)
       ..writeByte(3)
-      ..write(obj.duration);
+      ..write(obj.duration)
+      ..writeByte(4)
+      ..write(obj.dateAndTime);
   }
 
   @override
@@ -208,6 +211,125 @@ class DailyRoutineModelAdapter extends TypeAdapter<DailyRoutineModel> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is DailyRoutineModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class CustomWorkoutModelAdapter extends TypeAdapter<CustomWorkoutModel> {
+  @override
+  final int typeId = 6;
+
+  @override
+  CustomWorkoutModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return CustomWorkoutModel(
+      gif: fields[1] as dynamic,
+      workOutName: fields[2] as String?,
+      duration: fields[3] as String?,
+      dicreption: fields[4] as String,
+      id: fields[0] as int?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, CustomWorkoutModel obj) {
+    writer
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.gif)
+      ..writeByte(2)
+      ..write(obj.workOutName)
+      ..writeByte(3)
+      ..write(obj.duration)
+      ..writeByte(4)
+      ..write(obj.dicreption);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CustomWorkoutModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class ProfileModelAdapter extends TypeAdapter<ProfileModel> {
+  @override
+  final int typeId = 7;
+
+  @override
+  ProfileModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return ProfileModel(
+      profile: fields[1] as dynamic,
+    )..id = fields[0] as int?;
+  }
+
+  @override
+  void write(BinaryWriter writer, ProfileModel obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.profile);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProfileModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class LevelUnlockingModelAdapter extends TypeAdapter<LevelUnlockingModel> {
+  @override
+  final int typeId = 8;
+
+  @override
+  LevelUnlockingModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return LevelUnlockingModel(
+      day: fields[1] as int,
+      id: fields[0] as int?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, LevelUnlockingModel obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.day);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LevelUnlockingModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

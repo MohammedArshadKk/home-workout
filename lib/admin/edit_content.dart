@@ -343,7 +343,7 @@ Future<void> updateWorkoutDetailsInFirestore(
     });
     print('Workout details updated in Firestore.');
   } catch (e) {
-    print("Error updating workout details: $e");
+    print("Error updating workout details: $e");    
   }
 }
 

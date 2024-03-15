@@ -54,6 +54,11 @@ dependencies:
   cached_network_image: ^3.3.1
   percent_indicator: ^4.2.3
   hive_flutter: ^1.1.0
+  flutter_local_notifications: ^16.3.2
+  flutter_timezone: ^1.0.8
+  rxdart: ^0.27.7
+  js: ^0.6.7
+  timezone: ^0.9.2
   
   
   
@@ -85,27 +90,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/splash.jpg
-    - assets/login.jpg
-    - assets/google.png
-    - assets/signup.jpg
-    - assets/otp.jpg
-    - assets/7X4.jpg
-    - assets/AbsBiginner.jpg
-    - assets/CHESTBEGINNER.jpg
-    - assets/LEGBEGINNER.jpg
-    - assets/interabs.png
-    - assets/chestInter.jpg
-    - assets/armIntermediate.jpg
-    - assets/LEGintermediate.jpg
-    - assets/armAdvanced.png
-    - assets/ChestAdvanced.png
-    - assets/ABSadvanced.png
-    - assets/LEGadvanced.jpg
-    - assets/JUMPING JACKS.gif
-    - assets/praceholder.jpg
-    - assets/Animation - 1708600684491.gif
-    - assets/congratulations.gif
+    - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

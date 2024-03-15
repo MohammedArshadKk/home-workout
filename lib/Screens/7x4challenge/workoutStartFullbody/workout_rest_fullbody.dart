@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:home_workout/Screens/7x4challenge/workoutStartFullbody/workout_started_fullbody.dart';
-import 'package:home_workout/Screens/workout/workoutStarted.dart';
+import 'package:home_workout/screens/7x4challenge/workoutStartFullbody/workout_started_fullbody.dart';
 
 class WorkoutRestScreenFullbody extends StatefulWidget {
   final List<QueryDocumentSnapshot<Object?>>? filteredDataList;
 
-  const WorkoutRestScreenFullbody({Key? key, required this.filteredDataList}) : super(key: key);
+  const WorkoutRestScreenFullbody({Key? key, this.filteredDataList}) : super(key: key);
 
   @override
   _WorkoutRestScreenFullbodyState createState() => _WorkoutRestScreenFullbodyState();
@@ -42,13 +41,12 @@ class _WorkoutRestScreenFullbodyState extends State<WorkoutRestScreenFullbody> {
           itemCount: 1,
           itemBuilder: (context, index) {
             if (widget.filteredDataList == null || length >= widget.filteredDataList!.length) {
-              return Center(child: Text("No data"));
+              return const Center(child: Text("No data"));
             }
 
             final Map<String, dynamic> map = widget.filteredDataList![length].data() as Map<String, dynamic>;
             final imageUrl = map['imageUrl'];
             final workoutName = map['workoutName'];
-            final descriptionWorkout = map['description'];
             filteredDataListNew = widget.filteredDataList;
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +59,7 @@ class _WorkoutRestScreenFullbodyState extends State<WorkoutRestScreenFullbody> {
                     child: CachedNetworkImage(
                       imageUrl: imageUrl,
                       placeholder: (context, url) => Image.asset('assets/praceholder.jpg'),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -80,7 +78,7 @@ class _WorkoutRestScreenFullbodyState extends State<WorkoutRestScreenFullbody> {
                 const SizedBox(height: 30),
                 Text(
                   workoutName,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 const SizedBox(height: 30),
                 Stack(
@@ -109,7 +107,7 @@ class _WorkoutRestScreenFullbodyState extends State<WorkoutRestScreenFullbody> {
                       filteredDataList: filteredDataListNew,
                     )));
                   },
-                  child: Text('SKIP'),
+                  child: const Text('SKIP'),
                 ),
               ],
             );
@@ -124,7 +122,7 @@ class _WorkoutRestScreenFullbodyState extends State<WorkoutRestScreenFullbody> {
     _timer = Timer.periodic(oneSec, (timer) {
       if (_timerValue == 0) {
         timer.cancel();
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => WorkoutStartedScreen(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => WorkoutStartedScreenFullBody(
           filteredDataList: filteredDataListNew,
         )));
         return;

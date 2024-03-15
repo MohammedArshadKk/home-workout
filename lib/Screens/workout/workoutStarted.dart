@@ -149,7 +149,9 @@ class _WorkoutStartedScreenState extends State<WorkoutStartedScreen> {
                     final history = HistoryModel(
                         gif: imageUrlNew,
                         workOutName: workoutNameNew,
-                        duration: durationNew);
+                        duration: durationNew,
+                        dateAndTime: DateTime.now().toString(),
+                        );
                     addWorkoutHistory(history);
                     _startTimer();
                   },

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:home_workout/admin/screens/admin7X4challenge.dart';
-import 'package:home_workout/admin/screens/adminAdvanced.dart';
-import 'package:home_workout/admin/screens/adminCustomWorkOut.dart';
-import 'package:home_workout/admin/screens/adminIntermediate.dart';
-import 'package:home_workout/admin/screens/adminbiginner.dart';
+import 'package:home_workout/admin/screens/admin_intermediate.dart.dart';
+import 'package:home_workout/admin/screens/admin_7x4_challenge.dart.dart';
+import 'package:home_workout/admin/screens/admin_advanced.dart';
+import 'package:home_workout/admin/screens/admin_biginner.dart';
+import 'package:home_workout/admin/screens/admin_custom_work_out.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
