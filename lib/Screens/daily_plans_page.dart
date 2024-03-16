@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:home_workout/database/functions/db_customworkout_function.dart';
 import 'package:home_workout/database/functions/db_dailyRoutine_function.dart';
 import 'package:home_workout/screens/daily_routine_edit_screen.dart';
-import 'package:home_workout/widgets/Workout_creator.dart';
 import 'package:home_workout/widgets/daily_routine.dart';
 import 'package:home_workout/widgets/user_workout.dart';
+import 'package:home_workout/widgets/workout_creator.dart';
 
 class DailyPlansPage extends StatefulWidget {
   const DailyPlansPage({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class _DailyPlansPageState extends State<DailyPlansPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Workout_creator(),
+            const WorkoutCreator(),
             const UserWorkout(),
             const DailyRoutine(),
             ElevatedButton(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:home_workout/database/functions/db_levelunlocingFunction.dart';
 import 'package:home_workout/database/modelDatabase/database_model.dart';
@@ -12,7 +10,7 @@ import 'package:home_workout/screens/7x4challenge/days/day_20.dart';
 import 'package:home_workout/screens/7x4challenge/days/day_21.dart';
 
 class Week3 extends StatefulWidget {
-  const Week3({super.key,});
+  const Week3({Key? key}): super(key: key);
 
   @override
   State<Week3> createState() => _Week3State();
@@ -21,121 +19,126 @@ class Week3 extends StatefulWidget {
 class _Week3State extends State<Week3> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return ValueListenableBuilder(
       valueListenable: levelListNotifire,
       builder: (BuildContext ctx, List<LevelUnlockingModel> unlockingList, Widget? child) {
         final data = unlockingList.isNotEmpty ? unlockingList[0] : null;
         return Column(
           children: [
-            const Text(
+            Text(
               'WEEK 3',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: screenWidth * 0.056, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.035,
             ),
-            Container(
-              height: 60,    
-              width: 400,
-              decoration: BoxDecoration(
+            InkWell(
+              onTap: () {
+                if ((data?.day ?? 0) == 14 || (data?.day ?? 0) > 14) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (ctx) => Day15Screen()),
+                  );
+                }
+              },
+              child: Container(
+                height: screenHeight * 0.075,
+                width: double.infinity,
+                decoration: BoxDecoration(
                   color: (data != null && data.day == 14) || (data?.day ?? 0) > 14
                       ? const Color(0xFFFFE401)
                       : Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
-              child: ListTile(
-                onTap: () {
-                  if ((data?.day ?? 0) == 14 || (data?.day ?? 0) > 14) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (ctx) =>  Day15Screen()),
-                    );
-                  }
-                },
-                leading: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'DAY 1',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text('  11 MINUTE')
-                  ],
+                  borderRadius: BorderRadius.circular(screenWidth * 0.013),
+                  border: Border.all(color: Colors.grey),
                 ),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: ((data?.day ?? 0) == 14 || (data?.day ?? 0) > 14)
-                      ? const Icon(Icons.arrow_forward_ios)
-                      : const Icon(Icons.lock_outline),
+                child: ListTile(
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'DAY 1',
+                        style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
+                      ),
+                      const Text('  11 MINUTE')
+                    ],
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {},
+                    icon: ((data?.day ?? 0) == 14 || (data?.day ?? 0) > 14)
+                        ? const Icon(Icons.arrow_forward_ios)
+                        : const Icon(Icons.lock_outline),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.035,
             ),
             Container(
-              height: 60,
-              width: 400,
+              height: screenHeight * 0.075,
+              width: double.infinity,
               decoration: BoxDecoration(
-                  color: (data?.day ?? 0) >= 8 ? const Color(0xFFFFE401) : Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
+                color: (data?.day ?? 0) >= 15 ? const Color(0xFFFFE401) : Colors.white,
+                borderRadius: BorderRadius.circular(screenWidth * 0.013),
+                border: Border.all(color: Colors.grey),
+              ),
               child: ListTile(
                 onTap: () {
-                   if ((data?.day ?? 0) == 15 || (data?.day ?? 0) > 15) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (ctx) =>  Day16Screen()),
-                  );
-                }
+                  if ((data?.day ?? 0) == 15 || (data?.day ?? 0) > 15) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => Day16Screen()),
+                    );
+                  }
                 },
-                leading: const Column(
+                leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'DAY 2',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text('  11 MINUTE')
+                    const Text('  11 MINUTE')
                   ],
                 ),
                 trailing: IconButton(
-                  onPressed: () {
-                    log('day==${data?.day}');
-                  },
+                  onPressed: () {},
                   icon: (data?.day ?? 0) >= 15
                       ? const Icon(Icons.arrow_forward_ios)
                       : const Icon(Icons.lock_outline),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.035,
             ),
             Container(
-              height: 60,
-              width: 400,
+              height: screenHeight * 0.075,
+              width: double.infinity,
               decoration: BoxDecoration(
-                  color: (data?.day ?? 0) >= 16 ? const Color(0xFFFFE401) : Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
+                color: (data?.day ?? 0) >= 16 ? const Color(0xFFFFE401) : Colors.white,
+                borderRadius: BorderRadius.circular(screenWidth * 0.013),
+                border: Border.all(color: Colors.grey),
+              ),
               child: ListTile(
-                  onTap: () {
-                   if ((data?.day ?? 0) == 16 || (data?.day ?? 0) > 16) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (ctx) =>  Day17Screen()),
-                  );
-                }
+                onTap: () {
+                  if ((data?.day ?? 0) == 16 || (data?.day ?? 0) > 16) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => Day17Screen()),
+                    );
+                  }
                 },
-                leading: const Column(
+                leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'DAY 3',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text('  11 MINUTE')
+                    const Text('  11 MINUTE')
                   ],
                 ),
                 trailing: IconButton(
@@ -146,33 +149,34 @@ class _Week3State extends State<Week3> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.035,
             ),
             Container(
-              height: 60,
-              width: 400,
+              height: screenHeight * 0.075,
+              width: double.infinity,
               decoration: BoxDecoration(
-                  color: (data?.day ?? 0) >= 17 ? const Color(0xFFFFE401) : Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
+                color: (data?.day ?? 0) >= 17 ? const Color(0xFFFFE401) : Colors.white,
+                borderRadius: BorderRadius.circular(screenWidth * 0.013),
+                border: Border.all(color: Colors.grey),
+              ),
               child: ListTile(
-                  onTap: () {
-                   if ((data?.day ?? 0) == 17 || (data?.day ?? 0) > 17) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (ctx) =>  Day18Screen()),
-                  );
-                }
+                onTap: () {
+                  if ((data?.day ?? 0) == 17 || (data?.day ?? 0) > 17) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => Day18Screen()),
+                    );
+                  }
                 },
-                leading: const Column(
+                leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'DAY 4',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text('  11 MINUTE')
+                    const Text('  11 MINUTE')
                   ],
                 ),
                 trailing: IconButton(
@@ -183,34 +187,34 @@ class _Week3State extends State<Week3> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.035,
             ),
             Container(
-              height: 60,
-              width: 400,
+              height: screenHeight * 0.075,
+              width: double.infinity,
               decoration: BoxDecoration(
-                  color: (data?.day ?? 0) >= 18 ? const Color(0xFFFFE401) : Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
+                color: (data?.day ?? 0) >= 18 ? const Color(0xFFFFE401) : Colors.white,
+                borderRadius: BorderRadius.circular(screenWidth * 0.013),
+                border: Border.all(color: Colors.grey),
+              ),
               child: ListTile(
                 onTap: () {
-                   if ((data?.day ?? 0) == 18 || (data?.day ?? 0) > 18) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (ctx) =>  Day19Screen
-                    ()),
-                  );
-                }
+                  if ((data?.day ?? 0) == 18 || (data?.day ?? 0) > 18) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => Day19Screen()),
+                    );
+                  }
                 },
-                leading: const Column(
+                leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'DAY 5',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text('  11 MINUTE')
+                    const Text('  11 MINUTE')
                   ],
                 ),
                 trailing: IconButton(
@@ -221,33 +225,34 @@ class _Week3State extends State<Week3> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.035,
             ),
             Container(
-              height: 60,
-              width: 400,
+              height: screenHeight * 0.075,
+              width: double.infinity,
               decoration: BoxDecoration(
-                  color: (data?.day ?? 0) >= 19 ? const Color(0xFFFFE401) : Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
+                color: (data?.day ?? 0) >= 19 ? const Color(0xFFFFE401) : Colors.white,
+                borderRadius: BorderRadius.circular(screenWidth * 0.013),
+                border: Border.all(color: Colors.grey),
+              ),
               child: ListTile(
                 onTap: () {
-                   if ((data?.day ?? 0) == 19 || (data?.day ?? 0) > 19) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (ctx) =>  Day20Screen()),
-                  );
-                }
+                  if ((data?.day ?? 0) == 19 || (data?.day ?? 0) > 19) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => Day20Screen()),
+                    );
+                  }
                 },
-                leading: const Column(
+                leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text( 
+                    Text(
                       'DAY 6',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text('  11 MINUTE')
+                    const Text('  11 MINUTE')
                   ],
                 ),
                 trailing: IconButton(
@@ -258,33 +263,34 @@ class _Week3State extends State<Week3> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.035,
             ),
             Container(
-              height: 60,
-              width: 400,
+              height: screenHeight * 0.075,
+              width: double.infinity,
               decoration: BoxDecoration(
-                  color: (data?.day ?? 0) >= 20 ? const Color(0xFFFFE401) : Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey)),
+                color: (data?.day ?? 0) >= 20 ? const Color(0xFFFFE401) : Colors.white,
+                borderRadius: BorderRadius.circular(screenWidth * 0.013),
+                border: Border.all(color: Colors.grey),
+              ),
               child: ListTile(
                 onTap: () {
-                   if ((data?.day ?? 0) == 20 || (data?.day ?? 0) > 20) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (ctx) =>  Day21Screen()),
-                  );
-                }
+                  if ((data?.day ?? 0) == 20 || (data?.day ?? 0) > 20) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => Day21Screen()),
+                    );
+                  }
                 },
-                leading: const Column(
+                leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'DAY 7',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text('  11 MINUTE')
+                    const Text('  11 MINUTE')
                   ],
                 ),
                 trailing: IconButton(
@@ -301,4 +307,3 @@ class _Week3State extends State<Week3> {
     );
   }
 }
-          

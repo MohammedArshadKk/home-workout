@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:home_workout/Screens/splash_screen.dart';
 import 'package:home_workout/database/modelDatabase/database_model.dart';
-import 'package:home_workout/notification/locel_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +42,7 @@ void main() async {
   if(!Hive.isAdapterRegistered(LevelUnlockingModelAdapter().typeId)){
     Hive.registerAdapter(LevelUnlockingModelAdapter());
   }
-  await LocalNotifications.init();
+  // await LocalNotifications.init();
 
   runApp(const MyApp());
 

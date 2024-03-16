@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/login_screen.dart';
 import 'package:home_workout/database/functions/db_profilefunction.dart';
-import 'package:home_workout/notification/locel_notification.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,14 +54,14 @@ class _SettingsContentState extends State<SettingsContent> {
                     _isSwitched = newValue;
                     _prefs.setBool('workoutReminder', newValue);
                     if (_isSwitched) {
-                      LocalNotifications.showPeriodicNotifications(
-                        title: 'Workout Reminder',
-                        body: 'Don\'t forget to do your daily workout!',
-                        payload: 'aa',
-                      );
+                      // LocalNotifications.showPeriodicNotifications(
+                      //   title: 'Workout Reminder',
+                      //   body: 'Don\'t forget to do your daily workout!',
+                      //   payload: 'aa',
+                      // );
                     } else {
                       log('erorr');
-                      LocalNotifications.cancelAll();
+                      // LocalNotifications.cancelAll();
                     }
                   });
                 },
