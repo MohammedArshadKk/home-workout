@@ -7,47 +7,41 @@ import 'package:home_workout/database/modelDatabase/database_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-  apiKey: "AIzaSyB_r-mXr-RvDFAGaPTNZTuN1W4nGNjBNeE",
-  authDomain: "homeworkout-8ab52.firebaseapp.com",
-  projectId: "homeworkout-8ab52",
-  storageBucket: "homeworkout-8ab52.appspot.com",
-  messagingSenderId: "847564725130",
-  appId: "1:847564725130:web:5b02deb1c84778ece50673"
-      )
-  );
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyB_r-mXr-RvDFAGaPTNZTuN1W4nGNjBNeE",
+          authDomain: "homeworkout-8ab52.firebaseapp.com",
+          projectId: "homeworkout-8ab52",
+          storageBucket: "homeworkout-8ab52.appspot.com",
+          messagingSenderId: "847564725130",
+          appId: "1:847564725130:web:5b02deb1c84778ece50673"));
   Hive.initFlutter();
-  if(!Hive.isAdapterRegistered(HistoryModelAdapter().typeId)){
+  if (!Hive.isAdapterRegistered(HistoryModelAdapter().typeId)) {
     Hive.registerAdapter(HistoryModelAdapter());
-  }                          
-  if(!Hive.isAdapterRegistered(HistoryFullbodyAdapter().typeId)){
+  }
+  if (!Hive.isAdapterRegistered(HistoryFullbodyAdapter().typeId)) {
     Hive.registerAdapter(HistoryFullbodyAdapter());
   }
-  if(!Hive.isAdapterRegistered(BMImodelAdapter().typeId)){
+  if (!Hive.isAdapterRegistered(BMImodelAdapter().typeId)) {
     Hive.registerAdapter(BMImodelAdapter());
   }
-  if(!Hive.isAdapterRegistered(HistoryLevelsAdapter().typeId)){
+  if (!Hive.isAdapterRegistered(HistoryLevelsAdapter().typeId)) {
     Hive.registerAdapter(HistoryLevelsAdapter());
   }
-  if(!Hive.isAdapterRegistered(DailyRoutineModelAdapter().typeId)){
+  if (!Hive.isAdapterRegistered(DailyRoutineModelAdapter().typeId)) {
     Hive.registerAdapter(DailyRoutineModelAdapter());
   }
-  if(!Hive.isAdapterRegistered(CustomWorkoutModelAdapter().typeId)){
+  if (!Hive.isAdapterRegistered(CustomWorkoutModelAdapter().typeId)) {
     Hive.registerAdapter(CustomWorkoutModelAdapter());
   }
-  
-  if(!Hive.isAdapterRegistered(ProfileModelAdapter().typeId)){
+
+  if (!Hive.isAdapterRegistered(ProfileModelAdapter().typeId)) {
     Hive.registerAdapter(ProfileModelAdapter());
   }
-  if(!Hive.isAdapterRegistered(LevelUnlockingModelAdapter().typeId)){
+  if (!Hive.isAdapterRegistered(LevelUnlockingModelAdapter().typeId)) {
     Hive.registerAdapter(LevelUnlockingModelAdapter());
   }
-  // await LocalNotifications.init();
-
   runApp(const MyApp());
-
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -56,10 +50,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-   theme: ThemeData(
-    primaryColor: Colors.yellow
-   ),
-   home:const SplashScreen(),   
+      theme: ThemeData(primaryColor: Colors.yellow),
+      home: const SplashScreen(),
     );
   }
 }

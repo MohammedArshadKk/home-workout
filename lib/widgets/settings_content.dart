@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/login_screen.dart';
 import 'package:home_workout/database/functions/db_profilefunction.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsContent extends StatefulWidget {
@@ -16,20 +13,12 @@ class SettingsContent extends StatefulWidget {
 }
 
 class _SettingsContentState extends State<SettingsContent> {
-  late SharedPreferences _prefs;
-  late bool _isSwitched = false;
+ 
 
   @override
   void initState() {
     super.initState();
-    _loadPreferences();
-  }
-
-  Future<void> _loadPreferences() async {
-    _prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isSwitched = _prefs.getBool('workoutReminder') ?? true;
-    });
+    
   }
 
   @override
@@ -39,39 +28,6 @@ class _SettingsContentState extends State<SettingsContent> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          ListTile(
-            leading: const Icon(Icons.notifications_active_outlined),
-            title: const Text(
-              'Remind me to work out every day',
-              style: TextStyle(fontSize: 13),
-            ),
-            trailing: Transform.scale(
-              scale: 0.8,
-              child: Switch(
-                value: _isSwitched,
-                onChanged: (bool newValue) {
-                  setState(() {
-                    _isSwitched = newValue;
-                    _prefs.setBool('workoutReminder', newValue);
-                    if (_isSwitched) {
-                      // LocalNotifications.showPeriodicNotifications(
-                      //   title: 'Workout Reminder',
-                      //   body: 'Don\'t forget to do your daily workout!',
-                      //   payload: 'aa',
-                      // );
-                    } else {
-                      log('erorr');
-                      // LocalNotifications.cancelAll();
-                    }
-                  });
-                },
-                activeColor: Colors.black,
-                inactiveThumbColor: Colors.grey,
-                activeTrackColor: const Color(0xFFFFE401),
-                inactiveTrackColor: Colors.grey[300],
-              ),
-            ),
-          ),
           GestureDetector(
             onTap: () async {
               final Uri url = Uri.parse(
@@ -137,7 +93,6 @@ class _SettingsContentState extends State<SettingsContent> {
     if (confirm == true) {
       final FirebaseAuth auth = FirebaseAuth.instance;
       await auth.signOut();
-      await _prefs.clear();
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (ctx) => const Loginscreen()));
     }
