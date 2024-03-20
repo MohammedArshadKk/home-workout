@@ -5,7 +5,7 @@ import 'package:home_workout/Screens/reportpage.dart';
 import 'package:home_workout/Screens/settingsPage.dart';
 
 class BottomNavigationBarWorkout extends StatefulWidget {
-  const BottomNavigationBarWorkout({Key? key}) : super(key: key);
+  const BottomNavigationBarWorkout({Key? key});
 
   @override
   _BottomNavigationBarWorkoutState createState() =>

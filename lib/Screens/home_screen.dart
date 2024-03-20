@@ -7,7 +7,7 @@ import 'package:home_workout/widgets/full_body.dart';
 import 'package:home_workout/widgets/intermediate.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {

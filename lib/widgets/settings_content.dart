@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_workout/Screens/login_screen.dart';
-import 'package:home_workout/database/functions/db_profilefunction.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsContent extends StatefulWidget {
@@ -13,25 +13,20 @@ class SettingsContent extends StatefulWidget {
 }
 
 class _SettingsContentState extends State<SettingsContent> {
- 
-
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
   Widget build(BuildContext context) {
-    getAllprofile();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           GestureDetector(
             onTap: () async {
-              final Uri url = Uri.parse(
-                  'https://www.freeprivacypolicy.com/live/b70ad2d0-42a3-46bb-8e17-8bb9297a94d1');
+              final Uri url = Uri.parse('https://www.freeprivacypolicy.com/live/b70ad2d0-42a3-46bb-8e17-8bb9297a94d1');
               if (await canLaunchUrl(url)) {
                 await launchUrl(url);
               } else {
@@ -93,9 +88,15 @@ class _SettingsContentState extends State<SettingsContent> {
     if (confirm == true) {
       final FirebaseAuth auth = FirebaseAuth.instance;
       await auth.signOut();
+      await _storeLogoutData();
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (ctx) => const Loginscreen()));
     }
+  }
+
+  Future<void> _storeLogoutData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', false);
   }
 
   void _shareWithFriends() {
@@ -109,7 +110,7 @@ class _SettingsContentState extends State<SettingsContent> {
 
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
-      path: email,
+      path: email,    
       queryParameters: {
         'subject': subject,
         'body': body,

@@ -135,7 +135,6 @@ class _ReportPageState extends State<ReportPage> {
                                       );
 
                                       addBmiDetails(bmiMOdel);
-
                                       weightController.clear();
                                       heightController.clear();
                                     }
@@ -221,9 +220,9 @@ class _ReportPageState extends State<ReportPage> {
             const TableCalendarReport(),
             const Report7X4Challenge(),
             const SizedBox(
-              height: 100,
+              height: 50,
             ),
-            const ReportLevels(),
+            const ReportLevels(),   
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

@@ -35,10 +35,10 @@ class _Report7X4ChallengeState extends State<Report7X4Challenge> {
             ),
             CircularPercentIndicator(
               radius: screenWidth * 0.3,
-              lineWidth: 0.07 * screenWidth,
+              lineWidth: 0.05 * screenWidth,
               animation: true,
               percent: percentage / 100,
-              center: Text(
+              center: Text(  
                 '${percentage.round()}%',
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),

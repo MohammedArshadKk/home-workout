@@ -42,11 +42,11 @@ class _ReportLevelsState extends State<ReportLevels> {
                                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
-                                height: screenWidth * 0.56, 
-                              ),
+                                height: screenWidth * 0.2, 
+                              ), 
                               CircularPercentIndicator(
-                                radius: screenWidth * 0.25, 
-                                lineWidth: screenWidth * 0.005, 
+                                radius:screenWidth * 0.3, 
+                                lineWidth:  0.05 * screenWidth, 
                                 animation: true,
                                 percent: percentage / 100,
                                 center: Text(
